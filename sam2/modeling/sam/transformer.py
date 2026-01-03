@@ -229,9 +229,9 @@ class Attention(nn.Module):
 
     def forward(self, q: Tensor, k: Tensor, v: Tensor) -> Tensor:
         # Input projections
-        q = self.q_proj(q)
-        k = self.k_proj(k)
-        v = self.v_proj(v)
+        q = self.q_proj(q.to(dtype=self.q_proj.weight.dtype, device=self.q_proj.weight.device))
+        k = self.k_proj(k.to(dtype=self.k_proj.weight.dtype, device=self.k_proj.weight.device))
+        v = self.v_proj(v.to(dtype=self.v_proj.weight.dtype, device=self.v_proj.weight.device))
 
         # Separate into heads
         q = self._separate_heads(q, self.num_heads)
@@ -276,9 +276,9 @@ class RoPEAttention(Attention):
         self, q: Tensor, k: Tensor, v: Tensor, num_k_exclude_rope: int = 0
     ) -> Tensor:
         # Input projections
-        q = self.q_proj(q)
-        k = self.k_proj(k)
-        v = self.v_proj(v)
+        q = self.q_proj(q.to(dtype=self.q_proj.weight.dtype, device=self.q_proj.weight.device))
+        k = self.k_proj(k.to(dtype=self.k_proj.weight.dtype, device=self.k_proj.weight.device))
+        v = self.v_proj(v.to(dtype=self.v_proj.weight.dtype, device=self.v_proj.weight.device))
 
         # Separate into heads
         q = self._separate_heads(q, self.num_heads)
